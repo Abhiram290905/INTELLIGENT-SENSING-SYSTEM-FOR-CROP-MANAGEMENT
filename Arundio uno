@@ -1,0 +1,159 @@
+# code for arduino uno
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+// Set the LCD address, 0x27 is the default address for most I2C LCD modules
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Change the address if necessary
+// Define the pH sensor analog pin
+const int pHSensorPin = A0;
+// Define the soil moisture sensor pin
+const int soilSensorPin = A1;
+// Define the LM35 temperature sensor pin
+const int temperatureSensorPin = A2;
+void setup() {
+ // Initialize the LCD
+ lcd.init();
+// Turn on the backlight (if available)
+ lcd.backlight();
+// Print a message to the LCD
+ lcd.setCursor(0, 0);
+ lcd.print("intelligent crop");
+ lcd.setCursor(1, 1);
+ lcd.print("sensing device");
+ delay(5000);
+ lcd.clear();
+18
+ lcd.setCursor(0, 0);
+ lcd.print("insert moisture sensor,");
+ lcd.setCursor(1, 1);
+ lcd.print("Ph sensor ");
+ delay(5000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("in the required ");
+ lcd.setCursor(1, 1);
+ lcd.print("soil");
+ delay(5000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Calculating The");
+ lcd.setCursor(1, 1);
+ lcd.print("Readings.");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print("..");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print("...");
+ delay(500);
+ lcd.setCursor(9, 9);
+19
+ lcd.print("....");
+ delay(500);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Calculating The");
+ lcd.setCursor(1, 1)
+;
+ lcd.print("Readings.");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print("..");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print("...");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print(".....");
+ delay(500);
+ lcd.clear();
+ lcd.print("Calculating The");
+ lcd.setCursor(1, 1);
+ lcd.print("Readings.");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print("..");
+20
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print("...");
+ delay(500);
+ lcd.setCursor(9, 9);
+ lcd.print(".....");
+ delay(500);
+ lcd.clear();
+ // Set up the serial communication for debugging
+ Serial.begin(9600);
+}
+void loop() {
+ // Read soil moisture sensor value
+ int soilMoisture = analogRead(soilSensorPin);
+ // Map the sensor value to a moisture percentage (adjust according to your sensor)
+ int moisturePercentage = map(soilMoisture, 0, 1023, 0, 100);
+ // Read LM35 temperature sensor value
+ int temperatureValue = analogRead(temperatureSensorPin);
+float temperatureCelsius = (((analogRead(temperatureSensorPin) * 5.0) / 1024.0) - 0.5) * 14.0;
+float pH = (analogRead(pHSensorPin)*5 / 1024.0) * 16.0;
+// Display the moisture percentage, temperature, and pH on the LCD
+ lcd.clear(); // Clear the LCD to update values
+ lcd.setCursor(0, 0);
+ lcd.print("Moisture: " + String(moisturePercentage) + "% ");
+21
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Temp: " + String(temperatureCelsius) + " C ");
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("pH: " + String(pH) + " ");
+ delay(4000);
+ lcd.clear();
+ // Print the moisture, temperature, and pH values to the Serial Monitor for debugging
+ Serial.print("Soil Moisture: ");
+ Serial.print(moisturePercentage);
+ Serial.print("%, Temperature: ");
+ Serial.print(temperatureCelsius);
+ Serial.print(" C, pH: ");
+ Serial.println(pH);
+// Determine and display the soil type and recommended crops
+ determineSoilTypeAndCrops(moisturePercentage, temperatureCelsius, pH);
+ // Delay for stability (adjust as needed)
+ delay(5000);
+}
+void determineSoilTypeAndCrops(int moisture, float temperature, float pH) {
+ // Add your logic here to determine soil type and recommended crops
+22
+ // Use the sensor readings (moisture, temperature, pH) directly in your conditions
+if (moisture < 30 && temperature < 20 && pH > 6.5) {
+ // Display information for a specific condition
+ lcd.setCursor(0, 0);
+ lcd.print("Soil Type: Sandy");
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Recommended Crops");
+ lcd.setCursor(1, 0);
+ lcd.print("Carrot, Radish");
+ delay(5000);
+ lcd.clear();
+ } else if (moisture >= 30 && moisture < 60 && temperature >= 20 && temperature < 30 && pH >=
+6.0 && pH <= 6.5) {
+ // Another condition
+ lcd.setCursor(0, 0);
+ lcd.print("Soil Type: Loamy");
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0);
+ lcd.print("Recommended Crops");
+ lcd.setCursor(1, 0);
+ lcd.print("Tomato, Pepper");
+ delay(5000);
+23
+ lcd.clear();
+ } else if (moisture >= 60 && temperature >= 30 && pH <= 6.0) {
+ lcd.setCursor(0, 0);
+ lcd.print("Soil Type: Clay");
+ delay(4000);
+ lcd.clear();
+ lcd.setCursor(0, 0)
