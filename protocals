@@ -1,0 +1,58 @@
+🔌 Communication Protocols Used
+
+
+1) ZigBee
+
+*Goal: Low-power, short-range wireless communication.
+
+*Role in the project: Sensor networks; capable of supporting a number of sensor nodes-soil moisture, pH, and temperature-communicating efficiently with a central controller.
+
+*Rationale for selection:
+
+*Low Energy consumption
+
+*IoT-based agricultural sensor systems support this natively.
+
+*Reliability over small-range data transmission
+
+
+2. LoRa (Long Range)
+  
+  *Objective: Long-range, low-power wireless communication.
+  
+  *Role in the Project: It allows for remote monitoring of agricultural fields, especially in rural areas or large farms.
+  
+  *Rationale for selection:
+  
+  *Very extended communication range
+
+  *Low power requirements
+
+ *Performs admirably in regions with poor internet connectivity
+
+ *Security Parameters
+
+
+3. Data encryption
+
+   *Objective: Protects sensor data during transmission from unauthorized access.
+   
+   *Application: Ensures secure communication among sensors, gateways, and servers.
+
+
+4. Access Control
+
+   *perms: restricts system access to permissions granted.
+   
+   *Application: Prevents unauthorized alteration of system data or configuration.
+
+
+5. Physical Security
+   
+*Protection: Protects hardware components. Application: Arduino and sensors are enclosed in protective casings that would prevent                     tampering and damage.  
+
+*Supporting (Implicit) Protocols Although not directly named, the following protocols are implicitly used: 
+
+*Analog Signal Communication: Sensors to Arduino via analog pins A0, A1, A2 - Serial Communication (UART): Arduino to Serial Monitor for debugging and monitoring 
+
+*I2C protocol: The LCD display uses this protocol for data presentation (LiquidCrystal_I2C)
